@@ -9,6 +9,8 @@ containerPort: 8000
 
 service:
   type: LoadBalancer
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "false"  
   port: 8000
   targetPort: 8000
 
