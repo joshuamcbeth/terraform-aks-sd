@@ -70,6 +70,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   tags = var.tags
+
+  depends_on = [azurerm_container_registry.acr]
+
 }
 
 resource "azurerm_container_registry" "acr" {
@@ -79,4 +82,10 @@ resource "azurerm_container_registry" "acr" {
   sku                 = "Basic"                    # Basic, Standard, or Premium
   admin_enabled       = true                       # optional: allows username/password login
   tags                = var.tags
+}
+
+resource "azurerm_role_assignment" "aks_acr_pull" {
+  principal_id   = azurerm_kubernetes_cluster.aks.identity[0].principal_id
+  role_definition_name = "AcrPull"
+  scope          = azurerm_container_registry.acr.id
 }
