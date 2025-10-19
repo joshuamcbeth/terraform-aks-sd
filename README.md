@@ -6,6 +6,11 @@ This project deploys a simple Stable Diffusion Turbo API service in an AKS clust
 
 The project is laid out as a monorepo with component subfolders.
 
+    apps/
+    apps/sd/
+    apps/sd/helm/
+    terraform/
+
 # Usage
 
 After provisioning the service can be accessed via HTTP GET at (loadbalancer IP):8000/generate?prompt=(prompt), and will respond with the generated image.
