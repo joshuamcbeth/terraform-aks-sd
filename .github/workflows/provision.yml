@@ -56,13 +56,26 @@ jobs:
               "subscriptionId": "${{ env.ARM_SUBSCRIPTION_ID }}",
               "tenantId": "${{ env.ARM_TENANT_ID }}"
             }
+      - name: Set AKS context
+        uses: azure/aks-set-context@v3
+        with:
+          creds: >
+            {
+              "clientId": "${{ env.ARM_CLIENT_ID }}",
+              "clientSecret": "${{ env.ARM_CLIENT_SECRET }}",
+              "subscriptionId": "${{ env.ARM_SUBSCRIPTION_ID }}",
+              "tenantId": "${{ env.ARM_TENANT_ID }}"
+            }
+          cluster-name: terraform-aks-cluster
+          resource-group: terraform-aks-cluster-rg
 
       # 4. Build Docker image
-      - name: Build Docker image
+      - name: Build Docker image, push and deploy
         env:
           ACR_NAME: terraformaksclusteracrg8kf
-          IMAGE_NAME: terraformaksclusteracrg8kf.azurecr.io/sd:latest
         run: |
+          IMAGE="${{ env.ACR_NAME }}.azurecr.io/sd:${{ github.sha }}"
           az acr login --name ${{ env.ACR_NAME }}
-          docker build -t ${IMAGE_NAME} ./apps/sd
-          docker push ${IMAGE_NAME}
+          docker build -t ${IMAGE} ./apps/sd
+          docker push ${IMAGE}
+          helm upgrade --install gpt ./helm --namespace default --set image.repository="${IMAGE%:*}" --set image.tag="${IMAGE##*:}"

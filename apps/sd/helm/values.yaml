@@ -1,0 +1,23 @@
+
+image:
+  repository: terraformaksclusteracrg8kf.azurecr.io/sd
+  tag: latest
+
+replicaCount: 1
+
+containerPort: 8000
+
+service:
+  type: LoadBalancer
+  port: 8000
+  targetPort: 8000
+
+resources:
+  requests:
+    cpu: 1500m
+    memory: 6656Mi
+  limits:
+    cpu: 1500m
+    memory: 6656Mi
+
+env: {}
