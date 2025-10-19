@@ -16,10 +16,11 @@ variable "cluster_name" {
   description = "AKS cluster name"
   default     = "terraform-aks-cluster"
 }
+
 variable "acr_name" {
   type        = string
   description = "AKS cluster name"
-  default     = "terraform-aks-cluster-acr-g8kf"
+  default     = "terraformaksclusteracrg8kf"
 }
 
 variable "dns_prefix" {
