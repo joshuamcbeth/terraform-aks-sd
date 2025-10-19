@@ -78,4 +78,4 @@ jobs:
           az acr login --name ${{ env.ACR_NAME }}
           docker build -t ${IMAGE} ./apps/sd
           docker push ${IMAGE}
-          helm upgrade --install gpt ./helm --namespace default --set image.repository="${IMAGE%:*}" --set image.tag="${IMAGE##*:}"
+          helm upgrade --install sd ./apps/sd/helm --namespace default --set image.repository="${IMAGE%:*}" --set image.tag="${IMAGE##*:}"
