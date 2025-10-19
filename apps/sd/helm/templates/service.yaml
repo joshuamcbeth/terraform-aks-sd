@@ -5,7 +5,8 @@ metadata:
   labels:
     app: {{ .Chart.Name }}
   annotations:
-    service.beta.kubernetes.io/azure-load-balancer-internal: "false"
+    service.beta.kubernetes.io/azure-load-balancer-resource-group: terraform-aks-cluster-rg
+    service.beta.kubernetes.io/azure-load-balancer-public-ip: sd-public-ip
 spec:
   type: LoadBalancer
   selector:
