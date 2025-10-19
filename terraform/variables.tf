@@ -19,7 +19,7 @@ variable "cluster_name" {
 
 variable "acr_name" {
   type        = string
-  description = "AKS cluster name"
+  description = "AKS container registry name"
   default     = "terraformaksclusteracrg8kf"
 }
 
