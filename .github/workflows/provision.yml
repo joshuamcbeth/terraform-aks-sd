@@ -8,7 +8,7 @@ on:
 
 jobs:
   terraform:
-    name: SD Provisiond
+    name: SD Provision
     runs-on: ubuntu-latest
     env:
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
