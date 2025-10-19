@@ -8,7 +8,7 @@ on:
 
 jobs:
   terraform:
-    name: OpenTofu
+    name: SD Provisiond
     runs-on: ubuntu-latest
     env:
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
@@ -60,9 +60,9 @@ jobs:
       # 4. Build Docker image
       - name: Build Docker image
         env:
-          ACR_NAME: terraformaksclusteracrg8kf.azurecr.io
+          ACR_NAME: terraformaksclusteracrg8kf
           IMAGE_NAME: terraformaksclusteracrg8kf.azurecr.io/sd:latest
         run: |
+          az acr login --name ${{ env.ACR_NAME }}
           docker build -t ${IMAGE_NAME} ./apps/sd
-          echo ${{ secrets.AZURE_PASSWORD }} | docker login ${ACR_NAME} -u ${{ secrets.AZURE_USERNAME }} --password-stdin
           docker push ${IMAGE_NAME}
