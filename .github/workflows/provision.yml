@@ -45,3 +45,24 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           tofu apply -auto-approve -input=false "tfplan"
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: >
+            {
+              "clientId": "${{ secrets.ARM_CLIENT_ID }}",
+              "clientSecret": "${{ secrets.ARM_CLIENT_SECRET }}",
+              "subscriptionId": "${{ secrets.ARM_SUBSCRIPTION_ID }}",
+              "tenantId": "${{ secrets.ARM_TENANT_ID }}"
+            }
+
+      # 4. Build Docker image
+      - name: Build Docker image
+        env:
+          ACR_NAME: terraformaksclusteracrg8kf.azurecr.io
+          IMAGE_NAME: terraformaksclusteracrg8kf.azurecr.io/sd:latest
+        run: |
+          docker build -t ${IMAGE_NAME} ./apps/sd
+          echo ${{ secrets.AZURE_PASSWORD }} | docker login ${ACR_NAME} -u ${{ secrets.AZURE_USERNAME }} --password-stdin
+          docker push ${IMAGE_NAME}
