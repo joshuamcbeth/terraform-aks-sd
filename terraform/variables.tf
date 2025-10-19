@@ -38,7 +38,7 @@ variable "node_count" {
 variable "node_vm_size" {
   type        = string
   description = "VM size for the default node pool"
-  default     = "Standard_B2ps_v2"
+  default     = "Standard_DC2as_v5"
 }
 
 variable "tags" {
